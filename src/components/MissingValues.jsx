@@ -282,13 +282,15 @@ export default function MissingValues() {
   const [activeTab, setActiveTab] = useState('numerical');
   const [imputerType, setImputerType] = useState('numerical');
   const [selectedMethod, setSelectedMethod] = useState('mean');
+  const [miceStep, setMiceStep] = useState(0);
 
   const tabs = [
     { id: 'overview', label: '1. Overview & Concepts' },
     { id: 'numerical', label: '2. Numerical Imputation' },
     { id: 'categorical', label: '3. Categorical Imputation' },
     { id: 'advanced', label: '4. Advanced Methods' },
-    { id: 'interactive', label: '5. Interactive Demo' },
+    { id: 'interactive', label: '5. Simple Imputation' },
+    { id: 'mice_interactive', label: '6. MICE (Iterative Approach)' },
   ];
 
   const handleTypeSwitch = (type) => {
@@ -526,6 +528,289 @@ export default function MissingValues() {
 
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'mice_interactive' && (
+          <div className="tab-content fade-in">
+            <div className="hero-section" style={{ paddingTop: '0', marginBottom: '2rem' }}>
+              <h2 className="hero-title" style={{ fontSize: '1.8rem', fontWeight: 800 }}>MICE: Multivariate Imputation by Chained Equations</h2>
+              <p className="hero-subtitle" style={{ fontSize: '0.9rem', color: '#94a3b8' }}>
+                An <strong>iterative</strong> algorithm that imputes missing values by modeling each feature as a function of other features.
+              </p>
+            </div>
+
+            {/* Step Controls */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '12px',
+              padding: '1rem',
+              marginBottom: '2rem',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              {/* Step indicator */}
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {['0. Mean Fill', '1. Impute Age', '2. Impute Exp', '3. Impute Salary', '4. Complete'].map((name, i) => (
+                  <div key={i} style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    background: miceStep === i ? 'rgba(139,92,246,0.15)' : 'transparent',
+                    border: `1px solid ${miceStep === i ? '#8b5cf6' : 'rgba(255,255,255,0.05)'}`,
+                    color: miceStep === i ? '#a5b4fc' : '#64748b',
+                  }}>
+                    {name}
+                  </div>
+                ))}
+              </div>
+
+              {/* Navigation Buttons */}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  disabled={miceStep === 0}
+                  onClick={() => setMiceStep(prev => prev - 1)}
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '0.78rem', padding: '6px 12px', opacity: miceStep === 0 ? 0.5 : 1 }}
+                >
+                  Previous Step
+                </button>
+                <button
+                  disabled={miceStep === 4}
+                  onClick={() => setMiceStep(prev => prev + 1)}
+                  className="btn btn-primary btn-sm"
+                  style={{ fontSize: '0.78rem', padding: '6px 12px', opacity: miceStep === 4 ? 0.5 : 1, background: 'linear-gradient(135deg, #8b5cf6, #6366f1)' }}
+                >
+                  Next Step
+                </button>
+              </div>
+            </div>
+
+            {/* 2 Column Grid */}
+            <div className="grid-11-09">
+              
+              {/* Left Column: Interactive Dataset Table */}
+              <div className="interactive-card">
+                <h3 className="card-title" style={{ marginBottom: '1rem' }}>Active Dataset (Iteration 1)</h3>
+                
+                <div className="table-wrapper">
+                  <table className="compare-table" style={{ textAlign: 'center' }}>
+                    <thead>
+                      <tr>
+                        <th>Employee Row</th>
+                        <th>Age (Years)</th>
+                        <th>Experience (Years)</th>
+                        <th>Salary (k$)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* Row 1 */}
+                      <tr>
+                        <td><strong>Row 1</strong></td>
+                        <td>25</td>
+                        <td>2</td>
+                        <td>50</td>
+                      </tr>
+
+                      {/* Row 2 (Experience was missing) */}
+                      <tr style={{
+                        background: miceStep === 2 ? 'rgba(251,191,36,0.03)' : 'transparent'
+                      }}>
+                        <td><strong>Row 2</strong></td>
+                        <td>30</td>
+                        <td style={{
+                          color: miceStep === 0 ? '#fbbf24' : miceStep >= 2 ? '#10b981' : '#f31260',
+                          fontWeight: miceStep >= 2 || miceStep === 0 ? 'bold' : 'normal',
+                          background: miceStep === 2 ? 'rgba(16,185,129,0.1)' : miceStep === 0 ? 'rgba(251,191,36,0.1)' : 'transparent',
+                          border: miceStep === 2 ? '1px solid #10b981' : 'none',
+                          transition: 'all 0.3s'
+                        }}>
+                          {miceStep === 0 ? '11.25 (Mean)' : miceStep === 1 ? '11.25' : '6.0 (Predicted)'}
+                        </td>
+                        <td>60</td>
+                      </tr>
+
+                      {/* Row 3 (Age was missing) */}
+                      <tr style={{
+                        background: miceStep === 1 ? 'rgba(251,191,36,0.03)' : 'transparent'
+                      }}>
+                        <td><strong>Row 3</strong></td>
+                        <td style={{
+                          color: miceStep === 0 ? '#fbbf24' : miceStep >= 1 ? '#10b981' : '#f31260',
+                          fontWeight: miceStep >= 1 || miceStep === 0 ? 'bold' : 'normal',
+                          background: miceStep === 1 ? 'rgba(16,185,129,0.1)' : miceStep === 0 ? 'rgba(251,191,36,0.1)' : 'transparent',
+                          border: miceStep === 1 ? '1px solid #10b981' : 'none',
+                          transition: 'all 0.3s'
+                        }}>
+                          {miceStep === 0 ? '37.5 (Mean)' : '33.8 (Predicted)'}
+                        </td>
+                        <td>8</td>
+                        <td>80</td>
+                      </tr>
+
+                      {/* Row 4 */}
+                      <tr>
+                        <td><strong>Row 4</strong></td>
+                        <td>45</td>
+                        <td>15</td>
+                        <td>110</td>
+                      </tr>
+
+                      {/* Row 5 (Salary was missing) */}
+                      <tr style={{
+                        background: miceStep === 3 ? 'rgba(251,191,36,0.03)' : 'transparent'
+                      }}>
+                        <td><strong>Row 5</strong></td>
+                        <td>50</td>
+                        <td>20</td>
+                        <td style={{
+                          color: miceStep === 0 ? '#fbbf24' : miceStep >= 3 ? '#10b981' : '#f31260',
+                          fontWeight: miceStep >= 3 || miceStep === 0 ? 'bold' : 'normal',
+                          background: miceStep === 3 ? 'rgba(16,185,129,0.1)' : miceStep === 0 ? 'rgba(251,191,36,0.1)' : 'transparent',
+                          border: miceStep === 3 ? '1px solid #10b981' : 'none',
+                          transition: 'all 0.3s'
+                        }}>
+                          {miceStep <= 2 ? '75.0 (Mean)' : '151.0 (Predicted)'}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Right Column: Step Explanation Panel */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                
+                {miceStep === 0 && (
+                  <div className="interactive-card" style={{ padding: '1.5rem', borderLeft: '3px solid #fbbf24' }}>
+                    <h4 style={{ color: '#fbbf24', margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 700 }}>Step 0: Initial Imputation (Mean Fill)</h4>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      Before we can train models, the dataset must have no missing values. We temporarily replace the missing values with their column means:
+                    </p>
+                    <ul style={{ paddingLeft: '1.25rem', marginTop: '0.5rem', fontSize: '0.8rem', color: '#cbd5e1' }}>
+                      <li><strong>Age Mean:</strong> 37.5</li>
+                      <li><strong>Experience Mean:</strong> 11.25</li>
+                      <li><strong>Salary Mean:</strong> 75.0</li>
+                    </ul>
+                    <p style={{ margin: '8px 0 0 0', fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      These temporary values (shown in <span style={{ color: '#fbbf24', fontWeight: 'bold' }}>orange</span>) serve as starting values for the iterative chain.
+                    </p>
+                  </div>
+                )}
+
+                {miceStep === 1 && (
+                  <div className="interactive-card" style={{ padding: '1.5rem', borderLeft: '3px solid #8b5cf6' }}>
+                    <h4 style={{ color: '#a5b4fc', margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 700 }}>Step 1: Impute Age (Row 3)</h4>
+                    <p style={{ margin: '0 0 1rem 0', fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      We reset the missing values of <strong>Age</strong> back to NaN. Then, we fit a regression model to predict Age using <strong>Experience</strong> and <strong>Salary</strong>.
+                    </p>
+                    <div style={{
+                      background: 'rgba(0,0,0,0.2)',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      fontSize: '0.78rem',
+                      border: '1px solid rgba(139,92,246,0.2)',
+                      fontFamily: 'monospace'
+                    }}>
+                      <div style={{ color: '#64748b' }}># Trained Model Formula:</div>
+                      <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.85rem', marginTop: '4px' }}>
+                        Age = 1.6 * Experience + 0.3 * Salary - 3.0
+                      </div>
+                      <div style={{ color: '#64748b', marginTop: '8px' }}># Predict for Row 3 (Exp=8, Sal=80):</div>
+                      <div style={{ color: '#10b981', fontWeight: 'bold', marginTop: '4px' }}>
+                        Age = 1.6 * 8 + 0.3 * 80 - 3.0 = 33.8
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {miceStep === 2 && (
+                  <div className="interactive-card" style={{ padding: '1.5rem', borderLeft: '3px solid #8b5cf6' }}>
+                    <h4 style={{ color: '#a5b4fc', margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 700 }}>Step 2: Impute Experience (Row 2)</h4>
+                    <p style={{ margin: '0 0 1rem 0', fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      We reset the missing values of <strong>Experience</strong> back to NaN. We fit a model to predict Experience using the current values of <strong>Age</strong> (including Row 3's updated value) and <strong>Salary</strong>.
+                    </p>
+                    <div style={{
+                      background: 'rgba(0,0,0,0.2)',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      fontSize: '0.78rem',
+                      border: '1px solid rgba(139,92,246,0.2)',
+                      fontFamily: 'monospace'
+                    }}>
+                      <div style={{ color: '#64748b' }}># Trained Model Formula:</div>
+                      <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.85rem', marginTop: '4px' }}>
+                        Experience = 0.65 * Age + 0.05 * Salary - 16.5
+                      </div>
+                      <div style={{ color: '#64748b', marginTop: '8px' }}># Predict for Row 2 (Age=30, Sal=60):</div>
+                      <div style={{ color: '#10b981', fontWeight: 'bold', marginTop: '4px' }}>
+                        Experience = 0.65 * 30 + 0.05 * 60 - 16.5 = 6.0
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {miceStep === 3 && (
+                  <div className="interactive-card" style={{ padding: '1.5rem', borderLeft: '3px solid #8b5cf6' }}>
+                    <h4 style={{ color: '#a5b4fc', margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 700 }}>Step 3: Impute Salary (Row 5)</h4>
+                    <p style={{ margin: '0 0 1rem 0', fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      We reset the missing values of <strong>Salary</strong> back to NaN. We fit a model to predict Salary using the current values of <strong>Age</strong> and <strong>Experience</strong> (including Row 2's updated value).
+                    </p>
+                    <div style={{
+                      background: 'rgba(0,0,0,0.2)',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      fontSize: '0.78rem',
+                      border: '1px solid rgba(139,92,246,0.2)',
+                      fontFamily: 'monospace'
+                    }}>
+                      <div style={{ color: '#64748b' }}># Trained Model Formula:</div>
+                      <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.85rem', marginTop: '4px' }}>
+                        Salary = 1.8 * Age + 3.0 * Experience + 1.0
+                      </div>
+                      <div style={{ color: '#64748b', marginTop: '8px' }}># Predict for Row 5 (Age=50, Exp=20):</div>
+                      <div style={{ color: '#10b981', fontWeight: 'bold', marginTop: '4px' }}>
+                        Salary = 1.8 * 50 + 3.0 * 20 + 1.0 = 151.0
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {miceStep === 4 && (
+                  <div className="interactive-card" style={{ padding: '1.5rem', borderLeft: '3px solid #10b981' }}>
+                    <h4 style={{ color: '#10b981', margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 700 }}>Step 4: Iteration 1 Complete!</h4>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      We have successfully cycled through all variables once. Compare the changes:
+                    </p>
+                    <ul style={{ paddingLeft: '1.25rem', marginTop: '0.5rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: '#cbd5e1' }}>
+                      <li><strong>Row 3 Age:</strong> 37.5 (mean) → <strong>33.8</strong> (modeled)</li>
+                      <li><strong>Row 2 Exp:</strong> 11.25 (mean) → <strong>6.0</strong> (modeled)</li>
+                      <li><strong>Row 5 Salary:</strong> 75.0 (mean) → <strong>151.0</strong> (modeled)</li>
+                    </ul>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                      <strong>Iteration 2:</strong> In the next cycle, the model for Age will be retrained using the newly updated Experience (6.0) and Salary (151.0). This process repeats (usually 5–10 times) until the difference between consecutive predictions converges to a minimum threshold.
+                    </p>
+                  </div>
+                )}
+
+                {/* Theoretical Note Card */}
+                <div className="interactive-card" style={{ padding: '1rem', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                    <AlertTriangle size={14} style={{ color: '#ec4899', flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ fontSize: '0.74rem', color: '#64748b', lineHeight: 1.4 }}>
+                      <strong>Why is MICE better?</strong> Mean or Median imputation assumes features are independent, which creates spikes at the center of your distributions. MICE preserves relationships (like Experience scaling with Age and Salary scaling with both) which keeps data realistic for models.
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </div>
         )}

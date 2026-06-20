@@ -106,7 +106,7 @@ export default function Pipeline() {
       </div>
 
       {/* Grid: Tree diagram + Detail panel */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem', flexWrap: 'wrap' }}>
+      <div className="grid-12-08">
         
         {/* Left: Tree Diagram Container */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '16px', padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>

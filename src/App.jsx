@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Layers, Zap, Search, Activity, TrendingDown, GitMerge, ToggleLeft, 
-  GitBranch, Coffee, Home, ChevronLeft, ChevronRight, LayoutDashboard
+  GitBranch, Heart, ChevronLeft, ChevronRight, LayoutDashboard, Scissors, BookOpen, ChevronDown, Palette
 } from 'lucide-react';
 import Scaling from './components/Scaling';
 import MissingValues from './components/MissingValues';
@@ -11,40 +11,87 @@ import Encoding from './components/Encoding';
 import OutlierHandling from './components/OutlierHandling';
 import MixedVariables from './components/MixedVariables';
 import Binarization from './components/Binarization';
+import DimensionalityReduction from './components/DimensionalityReduction';
 import Support from './components/Support';
+import QuestionBank from './components/QuestionBank';
+import EDA from './components/EDA';
+import MLAlgorithms from './components/MLAlgorithms';
 import Dashboard from './pages/Dashboard';
 import './App.css'; 
 
 export default function App() {
   const [activeMainTab, setActiveMainTab] = useState('dashboard');
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'fe' | 'ml' | null
+  
+  // Theme state initialized from localStorage
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'deep-cosmos';
+  });
 
-  const mainTabs = [
-    { id: 'dashboard',    label: 'Dashboard',        icon: LayoutDashboard },
-    { id: 'pipeline',     label: 'FE Hierarchy',     icon: GitBranch },
-    { id: 'missing',      label: 'Missing Values',    icon: Search },
-    { id: 'encoding',     label: 'Encoding',          icon: Layers },
-    { id: 'mixed',        label: 'Mixed Variables',   icon: GitMerge },
-    { id: 'outlier',      label: 'Outlier Handling',  icon: TrendingDown },
-    { id: 'scaling',      label: 'Feature Scaling',   icon: Zap },
-    { id: 'binarization', label: 'Binarization',      icon: ToggleLeft },
-    { id: 'ml_pipeline',  label: 'ML Pipeline',      icon: Activity },
-    { id: 'support',      label: 'Buy Me Chai ☕',    icon: Coffee },
+  // Sync theme with body class
+  useEffect(() => {
+    document.body.className = theme === 'neon-dusk' ? 'neon-dusk-theme' : 'deep-cosmos-theme';
+  }, [theme]);
+
+  // Click-Outside-to-Close listener
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.nav-dropdown')) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'deep-cosmos' ? 'neon-dusk' : 'deep-cosmos';
+    setTheme(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+  };
+
+  // Dropdown options lists
+  const feDropdownItems = [
+    { id: 'pipeline',                 label: 'FE Hierarchy',      icon: GitBranch },
+    { id: 'mixed',                    label: 'Mixed Variables',    icon: GitMerge },
+    { id: 'missing',                  label: 'Missing Values',     icon: Search, isEmoji: true },
+    { id: 'encoding',                 label: 'Categorical Encoding', icon: Layers },
+    { id: 'outlier',                  label: 'Outlier Treatment',  icon: TrendingDown, isEmoji: true },
+    { id: 'scaling',                  label: 'Feature Scaling',    icon: Zap },
+    { id: 'binarization',             label: 'Binarization',       icon: ToggleLeft },
+    { id: 'dimensionality_reduction', label: 'Curse of Dim / DR',  icon: Scissors },
+    { id: 'ml_pipeline',              label: 'ML Pipeline',       icon: Activity },
   ];
 
-  // Pipeline flow steps (excluding dashboard and support)
+  const mlDropdownItems = [
+    { id: 'linear_regression',   label: 'Linear Regression' },
+    { id: 'logistic_regression', label: 'Logistic Regression' },
+    { id: 'decision_trees',      label: 'Decision Trees' },
+    { id: 'random_forests',      label: 'Random Forests' },
+    { id: 'svm',                 label: 'Support Vector Machines' },
+    { id: 'kmeans',              label: 'K-Means Clustering' }
+  ];
+
+  // Pipeline flow steps
   const flowSteps = [
     'pipeline',
+    'mixed',
     'missing',
     'encoding',
-    'mixed',
     'outlier',
     'scaling',
     'binarization',
+    'dimensionality_reduction',
     'ml_pipeline'
   ];
 
+  const mlAlgoSteps = mlDropdownItems.map(item => item.id);
+
   const currentFlowIdx = flowSteps.indexOf(activeMainTab);
   const isFlowActive = currentFlowIdx !== -1;
+  const isMLAlgoActive = mlAlgoSteps.includes(activeMainTab);
 
   const handleNext = () => {
     if (currentFlowIdx < flowSteps.length - 1) {
@@ -66,37 +113,269 @@ export default function App() {
     }
   };
 
+  // Helper to check active states
+  const isFEDropdownActive = flowSteps.includes(activeMainTab);
+
   return (
-    <div className="app-container">
+    <div className={`app-container ${theme}-theme`}>
+      {/* Navigation Custom Dropdown & Theme Switcher Styles */}
+      <style>{`
+        .nav-links-container {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          flex-wrap: wrap;
+        }
+        .nav-dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        .nav-dropdown-trigger {
+          background: transparent;
+          border: 1px solid transparent;
+          color: #64748b;
+          padding: 0.4rem 0.75rem;
+          border-radius: 8px;
+          font-family: 'Outfit', sans-serif;
+          font-weight: 600;
+          font-size: 0.8rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+        .nav-dropdown-trigger:hover, .nav-dropdown-trigger.active {
+          color: #e2e8f0;
+          background: rgba(99,102,241,0.1);
+          border-color: rgba(99,102,241,0.2);
+        }
+        .nav-dropdown-trigger.active {
+          color: #a5b4fc;
+          background: rgba(99,102,241,0.15);
+          border-color: rgba(99,102,241,0.35);
+        }
+        .nav-dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: rgba(8, 12, 28, 0.96);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(14px);
+          padding: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+          z-index: 1000;
+          min-width: 220px;
+          margin-top: 0.5rem;
+          animation: dropdownFade 0.15s ease;
+        }
+        .nav-dropdown-menu::before {
+          content: '';
+          position: absolute;
+          top: -10px;
+          left: 0;
+          right: 0;
+          height: 10px;
+          background: transparent;
+        }
+        @keyframes dropdownFade {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-dropdown-item {
+          background: transparent;
+          border: 1px solid transparent;
+          color: #94a3b8;
+          padding: 0.5rem 0.85rem;
+          border-radius: 8px;
+          font-family: 'Outfit', sans-serif;
+          font-weight: 600;
+          font-size: 0.8rem;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .nav-dropdown-item:hover {
+          color: #fff;
+          background: rgba(99,102,241,0.1);
+          border-color: rgba(99,102,241,0.15);
+        }
+        .nav-dropdown-item.active {
+          color: #a5b4fc;
+          background: rgba(99,102,241,0.15);
+          border-color: rgba(99,102,241,0.3);
+        }
+        
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 50%;
+          width: 34px;
+          height: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: #818cf8;
+          transition: all 0.25s ease;
+          box-shadow: 0 0 10px rgba(99,102,241,0.1);
+        }
+        .theme-toggle-btn:hover {
+          background: rgba(99,102,241,0.1);
+          border-color: rgba(99,102,241,0.3);
+          color: #fff;
+          transform: rotate(15deg);
+        }
+        .neon-dusk-theme .theme-toggle-btn {
+          color: #ff007f !important;
+          border-color: rgba(255,0,127,0.2) !important;
+          background: rgba(255,0,127,0.03) !important;
+          box-shadow: 0 0 10px rgba(255,0,127,0.15) !important;
+        }
+        .neon-dusk-theme .theme-toggle-btn:hover {
+          background: rgba(255,0,127,0.08) !important;
+          border-color: rgba(255,0,127,0.35) !important;
+          color: #fff !important;
+        }
+      `}</style>
+
       {/* Header */}
       <header className="header">
-        <div className="logo-section" style={{ cursor: 'pointer' }} onClick={() => setActiveMainTab('dashboard')}>
+        <div className="logo-section" style={{ cursor: 'pointer' }} onClick={() => { setActiveMainTab('dashboard'); setActiveDropdown(null); }}>
           <div className="logo-icon"><Layers size={22} /></div>
           <div>
-            <h1 className="logo-text">Feature Engineering Studio</h1>
-            <div className="logo-tagline">Data Prep, Imputation & Scaling</div>
+            <h1 className="logo-text">Mastering ML with Viz</h1>
+            <div className="logo-tagline">Mastering Machine Learning with Visualization</div>
           </div>
         </div>
-        <nav className="nav-links">
-          {mainTabs.map(t => {
-            const Icon = t.icon;
-            return (
-              <button
-                key={t.id}
-                className={`nav-link ${activeMainTab === t.id ? 'active' : ''}`}
-                onClick={() => setActiveMainTab(t.id)}
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <nav className="nav-links-container">
+            {/* Dashboard Link */}
+            <button
+              className={`nav-link ${activeMainTab === 'dashboard' ? 'active' : ''}`}
+              onClick={() => { setActiveMainTab('dashboard'); setActiveDropdown(null); }}
+            >
+              Dashboard
+            </button>
+
+            {/* EDA Link */}
+            <button
+              className={`nav-link ${activeMainTab === 'eda' ? 'active' : ''}`}
+              onClick={() => { setActiveMainTab('eda'); setActiveDropdown(null); }}
+            >
+              EDA 📊
+            </button>
+
+            {/* Feature Engineering Dropdown */}
+            <div className="nav-dropdown">
+              <button 
+                className={`nav-dropdown-trigger ${isFEDropdownActive ? 'active' : ''}`}
+                onClick={() => setActiveDropdown(activeDropdown === 'fe' ? null : 'fe')}
               >
-                {t.id === 'missing' || t.id === 'outlier' ? (
-                  t.id === 'missing' ? <span style={{ marginRight: '6px', fontSize: '14px', display: 'inline-block', verticalAlign: 'middle' }}>🔍</span> :
-                  <span style={{ marginRight: '6px', fontSize: '14px', display: 'inline-block', verticalAlign: 'middle' }}>📉</span>
-                ) : (
-                  <Icon size={14} style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}/>
-                )}
-                <span style={{ verticalAlign: 'middle' }}>{t.label}</span>
+                <span>Feature Engineering</span>
+                <ChevronDown 
+                  size={12} 
+                  style={{ 
+                    transform: activeDropdown === 'fe' ? 'rotate(180deg)' : 'rotate(0deg)', 
+                    transition: 'transform 0.2s ease' 
+                  }} 
+                />
               </button>
-            )
-          })}
-        </nav>
+              
+              {activeDropdown === 'fe' && (
+                <div className="nav-dropdown-menu">
+                  {feDropdownItems.map(item => {
+                    const Icon = item.icon;
+                    const isSelected = activeMainTab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        className={`nav-dropdown-item ${isSelected ? 'active' : ''}`}
+                        onClick={() => {
+                          setActiveMainTab(item.id);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item.isEmoji ? (
+                          item.id === 'missing' ? <span style={{ fontSize: '13px' }}>🔍</span> : <span style={{ fontSize: '13px' }}>📉</span>
+                        ) : (
+                          <Icon size={12} />
+                        )}
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* ML Algorithms Dropdown */}
+            <div className="nav-dropdown">
+              <button 
+                className={`nav-dropdown-trigger ${isMLAlgoActive ? 'active' : ''}`}
+                onClick={() => setActiveDropdown(activeDropdown === 'ml' ? null : 'ml')}
+              >
+                <span>ML Algorithms</span>
+                <ChevronDown 
+                  size={12} 
+                  style={{ 
+                    transform: activeDropdown === 'ml' ? 'rotate(180deg)' : 'rotate(0deg)', 
+                    transition: 'transform 0.2s ease' 
+                  }} 
+                />
+              </button>
+              
+              {activeDropdown === 'ml' && (
+                <div className="nav-dropdown-menu">
+                  {mlDropdownItems.map(item => {
+                    const isSelected = activeMainTab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        className={`nav-dropdown-item ${isSelected ? 'active' : ''}`}
+                        onClick={() => {
+                          setActiveMainTab(item.id);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <Activity size={12} style={{ color: '#818cf8' }} />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Question Bank Link */}
+            <button
+              className={`nav-link ${activeMainTab === 'question_bank' ? 'active' : ''}`}
+              onClick={() => { setActiveMainTab('question_bank'); setActiveDropdown(null); }}
+            >
+              Question Bank 📚
+            </button>
+          </nav>
+
+          {/* Theme Toggle Switcher Button */}
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle-btn"
+            title="Switch Theme Vibe"
+          >
+            <Palette size={14} />
+          </button>
+        </div>
       </header>
 
       {/* Main Content Area */}
@@ -104,6 +383,7 @@ export default function App() {
         
         {/* Active tab view */}
         {activeMainTab === 'dashboard'     && <Dashboard onNavigate={id => setActiveMainTab(id)} />}
+        {activeMainTab === 'eda'           && <EDA />}
         {activeMainTab === 'pipeline'      && <Pipeline />}
         {activeMainTab === 'missing'       && <MissingValues />}
         {activeMainTab === 'encoding'      && <Encoding />}
@@ -111,7 +391,10 @@ export default function App() {
         {activeMainTab === 'outlier'       && <OutlierHandling />}
         {activeMainTab === 'scaling'       && <Scaling />}
         {activeMainTab === 'binarization'  && <Binarization />}
+        {activeMainTab === 'dimensionality_reduction' && <DimensionalityReduction />}
         {activeMainTab === 'ml_pipeline'   && <MLPipeline />}
+        {isMLAlgoActive                    && <MLAlgorithms key={activeMainTab} initialSelected={activeMainTab} />}
+        {activeMainTab === 'question_bank' && <QuestionBank />}
         {activeMainTab === 'support'       && <Support />}
 
         {/* Unified Step Navigation Footer (Only shown when viewing a step in the pipeline) */}
@@ -186,7 +469,7 @@ export default function App() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(99,102,241,0.3)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(99,102,241,0.2)'; }}
             >
-              <span>{currentFlowIdx === flowSteps.length - 1 ? 'Support Creator ❤️' : 'Next Step'}</span>
+              <span>{currentFlowIdx === flowSteps.length - 1 ? 'Meet the Creator 🎓' : 'Next Step'}</span>
               <ChevronRight size={16} />
             </button>
           </div>
@@ -194,7 +477,7 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 Feature Engineering Studio · Made with ❤️ by Abhinay Yadav · Based on ML standard practices</p>
+        <p>© 2026 Mastering Machine Learning with Visualization · Made with ❤️ by an IITian Data Scientist (Abhinay Yadav) · Based on ML standard practices</p>
       </footer>
     </div>
   );

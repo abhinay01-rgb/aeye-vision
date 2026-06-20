@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Layers, GitBranch, GitMerge, Hash, Cpu, BarChart2, Scissors, ToggleLeft, 
-  Activity, Coffee, ChevronRight, Zap, BookOpen, CheckCircle2, ArrowRight
+  Activity, Heart, ChevronRight, Zap, BookOpen, CheckCircle2, ArrowRight
 } from 'lucide-react';
 
 const flowSteps = [
@@ -16,8 +16,18 @@ const flowSteps = [
     glow: 'rgba(99,102,241,0.15)',
   },
   {
-    id: 'missing',
+    id: 'mixed',
     stepNumber: 'Step 2',
+    icon: GitMerge,
+    title: 'Mixed Variables',
+    subtitle: 'Feature Extraction',
+    desc: 'Extract numbers or categories from columns containing mixed data formats (e.g., ticket codes, address details).',
+    color: '#38bdf8',
+    glow: 'rgba(56,189,248,0.15)',
+  },
+  {
+    id: 'missing',
+    stepNumber: 'Step 3',
     icon: Search => <span>🔍</span>, // search icon fallback
     title: 'Missing Values',
     subtitle: 'Imputation Strategies',
@@ -27,23 +37,13 @@ const flowSteps = [
   },
   {
     id: 'encoding',
-    stepNumber: 'Step 3',
+    stepNumber: 'Step 4',
     icon: Layers,
     title: 'Categorical Encoding',
     subtitle: 'Text to Numerical',
     desc: 'Convert labels and categories into math-ready formats using One-Hot Encoding and Ordinal Encoding.',
     color: '#8b5cf6',
     glow: 'rgba(139,92,246,0.15)',
-  },
-  {
-    id: 'mixed',
-    stepNumber: 'Step 4',
-    icon: GitMerge,
-    title: 'Mixed Variables',
-    subtitle: 'Feature Extraction',
-    desc: 'Extract numbers or categories from columns containing mixed data formats (e.g., ticket codes, address details).',
-    color: '#38bdf8',
-    glow: 'rgba(56,189,248,0.15)',
   },
   {
     id: 'outlier',
@@ -76,8 +76,18 @@ const flowSteps = [
     glow: 'rgba(16,185,129,0.15)',
   },
   {
-    id: 'ml_pipeline',
+    id: 'dimensionality_reduction',
     stepNumber: 'Step 8',
+    icon: Scissors,
+    title: 'Curse of Dim / DR',
+    subtitle: 'Feature Extraction',
+    desc: 'Compress high-dimensional spaces to combat sparseness and increase separability using PCA & LDA.',
+    color: '#a855f7',
+    glow: 'rgba(168,85,247,0.15)',
+  },
+  {
+    id: 'ml_pipeline',
+    stepNumber: 'Step 9',
     icon: Activity,
     title: 'ML Pipeline',
     subtitle: 'End-to-End Predictor',
@@ -88,9 +98,9 @@ const flowSteps = [
 ];
 
 const stats = [
-  { value: '8', label: 'Interactive Steps', icon: BookOpen },
+  { value: '9', label: 'Interactive Steps', icon: BookOpen },
   { value: '100%', label: 'Hands-on Code', icon: CheckCircle2 },
-  { value: '5+', label: 'Worked Datasets', icon: Layers },
+  { value: '185', label: 'Placement Qs', icon: Layers },
   { value: 'Colab', label: 'Notebooks Included', icon: Cpu },
 ];
 
@@ -99,61 +109,24 @@ export default function Dashboard({ onNavigate }) {
     <div className="dashboard fade-in" style={{ paddingBottom: '3rem' }}>
       
       {/* Hero Header */}
-      <div className="dash-hero" style={{
-        position: 'relative',
-        background: 'linear-gradient(135deg, rgba(8,12,28,0.95), rgba(15,23,42,0.85))',
-        border: '1px solid rgba(255,255,255,0.06)',
-        borderRadius: '24px',
-        padding: '3.5rem 3rem',
-        overflow: 'hidden',
-        marginBottom: '3.5rem',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
-      }}>
+      <div className="dash-hero">
         <div className="dash-hero-inner" style={{ position: 'relative', zIndex: 2, maxWidth: '720px' }}>
-          <div className="dash-hero-badge" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            background: 'rgba(99,102,241,0.15)',
-            border: '1px solid rgba(99,102,241,0.3)',
-            color: '#a5b4fc',
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            padding: '4px 12px',
-            borderRadius: '20px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            marginBottom: '1.5rem'
-          }}>
-            <Zap size={12} /> Interactive ML Pipeline Studio
+          <div className="dash-hero-badge">
+            <Zap size={12} /> Interactive ML Visual Studio
           </div>
           
-          <h1 className="dash-hero-title" style={{
-            fontFamily: 'Outfit, sans-serif',
-            fontSize: '3.2rem',
-            fontWeight: 850,
-            lineHeight: 1.15,
-            color: '#fff',
-            marginBottom: '1.25rem',
-            letterSpacing: '-0.03em'
-          }}>
-            Master Feature<br />
+          <h1 className="dash-hero-title">
+            Mastering Machine<br />
             <span style={{
               background: 'linear-gradient(135deg, #6366f1, #a5b4fc, #ec4899)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 850
-            }}>Engineering Flow</span>
+            }}>Learning with Viz</span>
           </h1>
           
-          <p className="dash-hero-sub" style={{
-            fontSize: '1rem',
-            color: '#94a3b8',
-            lineHeight: 1.6,
-            marginBottom: '2rem'
-          }}>
-            Learn how raw data is cleaned, encoded, scaled, and packed into deployable 
-            Scikit-Learn ML pipelines. Tap any step below to explore interactive calculators and codes.
+          <p className="dash-hero-sub">
+            Learn machine learning algorithms, exploratory data analysis, and feature engineering through interactive calculators, visual sandboxes, and compiled templates.
           </p>
 
           <button
@@ -182,16 +155,7 @@ export default function Dashboard({ onNavigate }) {
         </div>
 
         {/* Stats strip */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-          gap: '1rem',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          paddingTop: '2rem',
-          marginTop: '2.5rem',
-          position: 'relative',
-          zIndex: 2
-        }}>
+        <div className="dash-hero-stats-container">
           {stats.map((s, i) => {
             const Icon = s.icon;
             return (
@@ -266,7 +230,7 @@ export default function Dashboard({ onNavigate }) {
                   color: step.color,
                   marginBottom: '1rem',
                 }}>
-                  {typeof Icon === 'function' && idx === 1 ? Icon() : typeof Icon === 'function' && idx === 4 ? Icon() : <Icon size={20} />}
+                  {step.id === 'missing' || step.id === 'outlier' ? Icon() : <Icon size={20} />}
                 </div>
 
                 <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.25rem' }}>{step.title}</h3>
@@ -287,37 +251,66 @@ export default function Dashboard({ onNavigate }) {
         </div>
       </div>
 
-      {/* Support Callout */}
+      {/* Interview Question Bank Callout */}
       <div
-        onClick={() => onNavigate('support')}
+        onClick={() => onNavigate('question_bank')}
         style={{
-          marginTop: '3.5rem',
-          background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(236,72,153,0.04))',
-          border: '1px solid rgba(99,102,241,0.18)',
-          borderRadius: '20px',
-          padding: '2rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(56,189,248,0.03))',
+          border: '1px solid rgba(99,102,241,0.12)',
+          borderRadius: '20px',
+          padding: '1.5rem 2rem',
           cursor: 'pointer',
-          transition: 'all 0.2s'
+          transition: 'all 0.3s ease',
+          marginTop: '2.5rem',
+          marginBottom: '1.5rem',
+          flexWrap: 'wrap',
+          gap: '1rem'
         }}
-        onMouseEnter={e => { e.currentTarget.style.border = '1px solid rgba(99,102,241,0.35)'; }}
-        onMouseLeave={e => { e.currentTarget.style.border = '1px solid rgba(99,102,241,0.18)'; }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.borderColor = 'rgba(99,102,241,0.25)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(99,102,241,0.09), rgba(56,189,248,0.05))';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'none';
+          e.currentTarget.style.borderColor = 'rgba(99,102,241,0.12)';
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(56,189,248,0.03))';
+        }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <div style={{ padding: '0.75rem', background: 'rgba(99,102,241,0.12)', borderRadius: '12px', color: '#818cf8' }}>
-            <Coffee size={24} />
+          <div style={{ padding: '0.75rem', background: 'rgba(99,102,241,0.1)', borderRadius: '12px', color: '#6366f1' }}>
+            <BookOpen size={24} />
           </div>
           <div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', marginBottom: '0.25rem' }}>Like this project? Support the Creator!</h3>
-            <p style={{ fontSize: '0.82rem', color: '#94a3b8', margin: 0 }}>Made with love by Abhinay Yadav. Buy me a chai + sutta for just ₹35!</p>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', marginBottom: '0.25rem' }}>Placement Interview Question Bank 📚</h3>
+            <p style={{ fontSize: '0.82rem', color: '#94a3b8', margin: 0 }}>Real company-wise & topic-wise questions from Nile, Intelliwings, Meridian Solutions, FLAM, Scopely, and more.</p>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#a5b4fc', fontSize: '0.85rem', fontWeight: 700 }}>
-          <span>Show Support</span>
+          <span>Practice Questions</span>
+          <ChevronRight size={14} />
+        </div>
+      </div>
+
+      {/* Motivation Callout */}
+      <div
+        onClick={() => onNavigate('support')}
+        className="motivation-callout"
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ padding: '0.75rem', background: 'rgba(236,72,153,0.1)', borderRadius: '12px', color: '#ec4899' }}>
+            <Heart size={24} fill="#ec4899" />
+          </div>
+          <div>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', marginBottom: '0.25rem' }}>Meet the Creator (IITian Data Scientist)</h3>
+            <p style={{ fontSize: '0.82rem', color: '#94a3b8', margin: 0 }}>Connect with Abhinay Yadav, learn about his AI background, and get inspired to work hard.</p>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#a5b4fc', fontSize: '0.85rem', fontWeight: 700 }}>
+          <span>View Profile & Motivation</span>
           <ChevronRight size={14} />
         </div>
       </div>

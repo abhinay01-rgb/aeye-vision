@@ -626,7 +626,7 @@ print(df)
       {/* Tab 3: Interactive Demo */}
       {activeTab === 'demo' && (
         <div className="tab-content">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '2rem', flexWrap: 'wrap' }}>
+          <div className="grid-1-12">
             
             {/* Left controls */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -639,7 +639,7 @@ print(df)
                 {/* Dataset Selector */}
                 <div style={{ marginBottom: '1.2rem' }}>
                   <label style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Select Demo Column Type:</label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.1fr', gap: '0.5rem', rowGap: '0.5rem' }}>
+                  <div className="grid-3-col-buttons">
                     {[
                       { id: 'noorfatima_cabin', label: 'Cabin (Alphanumeric String)' },
                       { id: 'noorfatima_number', label: 'number (Mixed Datatypes)' },
@@ -694,7 +694,7 @@ print(df)
                 {/* Method selector */}
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Select Transformation Strategy:</label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                  <div className="grid-2-col">
                     {demoDataset === 'noorfatima_number' ? (
                       <button
                         onClick={() => setDemoAction('split_rows')}

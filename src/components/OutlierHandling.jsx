@@ -276,7 +276,7 @@ const ScatterSVG = ({ data, color, lowerFence, upperFence }) => {
    BOXPLOT ANATOMY LEGEND (used in Overview)
 ══════════════════════════════════════════════════════════════════════════ */
 const BoxplotAnatomyLegend = ({ color }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: '1rem' }}>
+  <div className="boxplot-legend-grid">
     {[
       { sym: '│ Min', desc: 'Whisker end — smallest non-outlier value', c: color },
       { sym: 'Q1', desc: '25th percentile — bottom of the box', c: color },
