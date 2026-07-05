@@ -2124,7 +2124,7 @@ body.neon-dusk-theme {
     font-size: 0.58rem;
   }
   .nav-links-container {
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     gap: 0.35rem;
   }
@@ -2134,6 +2134,510 @@ body.neon-dusk-theme {
     left: 50% !important;
     transform: translateX(-50%) !important;
   }
+  .main-content.single-pane {
+    padding: 1rem 0.85rem 1.5rem;
+  }
 }
 
+/* ══ ML ALGORITHMS SANDBOX — RESPONSIVE ═══════════════════════════════════ */
+
+.ml-algo-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.ml-algo-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.ml-algo-title {
+  font-size: clamp(1.65rem, 5vw, 2.2rem);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ml-algo-subtitle {
+  max-width: 600px;
+  margin: 0.5rem auto 0;
+  font-size: 0.92rem;
+  color: #94a3b8;
+}
+
+.ml-algo-mobile-picker {
+  display: none;
+  margin-bottom: 1.25rem;
+}
+
+.ml-algo-mobile-picker-label {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.ml-algo-select {
+  width: 100%;
+  background: rgba(8,12,28,0.9);
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+}
+
+.ml-algo-layout {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.ml-algo-sidebar {
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ml-algo-card {
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.ml-algo-card:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.02);
+}
+
+.ml-algo-card.selected {
+  background: rgba(99,102,241,0.06);
+  border-color: rgba(99,102,241,0.35);
+}
+
+.ml-algo-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #6366f1;
+  border-radius: 3px 0 0 3px;
+}
+
+.ml-algo-card-category {
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ml-algo-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0.15rem 0 0.4rem;
+  font-family: 'Outfit', sans-serif;
+}
+
+.ml-algo-card.selected .ml-algo-card-title {
+  color: #a5b4fc;
+}
+
+.ml-algo-card-desc {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ml-algo-detail {
+  flex: 2 2 500px;
+  min-width: 0;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  backdrop-filter: blur(20px);
+}
+
+.ml-algo-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 1.25rem;
+}
+
+.ml-algo-detail-title {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: 800;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+}
+
+.ml-algo-detail-category {
+  font-size: 0.8rem;
+  color: #818cf8;
+  font-weight: 600;
+}
+
+.ml-algo-ready-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(74,222,128,0.1);
+  border: 1px solid rgba(74,222,128,0.2);
+  color: #4ade80;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ml-algo-detail-desc {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.ml-algo-formula-box {
+  background: rgba(8,12,28,0.5);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ml-algo-formula-label,
+.ml-algo-section-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ml-algo-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.82rem, 2.5vw, 1rem);
+  color: #fff;
+  text-align: center;
+  padding: 0.25rem 0;
+  background: rgba(255,255,255,0.01);
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.02);
+  overflow-x: auto;
+  word-break: break-word;
+}
+
+.ml-algo-viz-section,
+.ml-algo-code-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.ml-algo-interactive-wrap {
+  width: 100%;
+  padding-top: 0.5rem;
+  min-width: 0;
+}
+
+.ml-algo-static-viz {
+  height: clamp(180px, 40vw, 220px);
+  width: 100%;
+  min-width: 0;
+}
+
+.ml-algo-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ml-algo-code-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #818cf8;
+  font-weight: 600;
+}
+
+.ml-algo-code {
+  background: #04060f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1.2rem;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 2.2vw, 0.78rem);
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0;
+  max-width: 100%;
+}
+
+.ml-algo-extended {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 1.5rem;
+}
+
+.ml-algo-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 1rem;
+}
+
+.ml-algo-assumptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.75rem;
+}
+
+.ml-algo-assumption-card {
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 0.85rem;
+  border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+  .main-content.single-pane {
+    padding: 1.25rem 1.25rem 2rem;
+  }
+  .ml-algo-detail {
+    padding: 1.5rem;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ml-algo-header {
+    margin-bottom: 1.75rem;
+  }
+  .ml-algo-mobile-picker {
+    display: block;
+  }
+  .ml-algo-sidebar {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.65rem;
+    padding-bottom: 0.35rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .ml-algo-card {
+    flex: 0 0 min(85vw, 260px);
+    padding: 1rem 1.1rem;
+  }
+  .ml-algo-card-desc {
+    -webkit-line-clamp: 3;
+  }
+  .ml-algo-detail {
+    flex: 1 1 100%;
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ml-algo-detail {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+  .ml-algo-ready-badge {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ══ INTERACTIVE REGRESSION WIDGETS — RESPONSIVE ══════════════════════════ */
+
+.interactive-regression {
+  background: rgba(8,12,28,0.6);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  font-family: 'Outfit', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.interactive-regression-plot-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 52vw, 280px);
+  background: #05010b;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.interactive-regression-hint {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  right: 12px;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin: 0;
+  pointer-events: none;
+  z-index: 10;
+  line-height: 1.3;
+}
+
+.interactive-regression-svg {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.interactive-regression-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1.5rem;
+}
+
+.interactive-regression-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.interactive-regression-metrics-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 0;
+}
+
+.interactive-regression-metrics-title {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.interactive-regression-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.interactive-regression-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.interactive-regression-btn {
+  flex: 1 1 140px;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+
+.interactive-regression-btn-primary {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.interactive-regression-btn-secondary {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .interactive-regression-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .interactive-regression-actions {
+    flex-direction: column;
+  }
+  .interactive-regression-btn {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  .interactive-regression-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+}
 

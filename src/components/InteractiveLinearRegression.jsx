@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Target, RefreshCw, Calculator } from 'lucide-react';
 
 export default function InteractiveLinearRegression() {
   const [points, setPoints] = useState([]);
+  const svgRef = useRef(null);
   const [slope, setSlope] = useState(1);
   const [intercept, setIntercept] = useState(0);
 
@@ -91,6 +92,35 @@ export default function InteractiveLinearRegression() {
   // Y is inverted in SVG (0 is top)
   const scaleY = (y) => height - padding - (y / 100) * (height - 2 * padding);
 
+  // Handle clicking on the SVG to add a new data point
+  const addPointFromCoords = (clientX, clientY) => {
+    if (!svgRef.current) return;
+    const svg = svgRef.current;
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+    
+    const dataX = ((svgP.x - padding) / (width - 2 * padding)) * 100;
+    const dataY = ((height - padding - svgP.y) / (height - 2 * padding)) * 100;
+
+    if (dataX >= -10 && dataX <= 110 && dataY >= -10 && dataY <= 110) {
+      setPoints((prev) => [
+        ...prev,
+        { x: Math.max(0, Math.min(100, dataX)), y: Math.max(0, Math.min(100, dataY)) },
+      ]);
+    }
+  };
+
+  const handleSvgClick = (e) => addPointFromCoords(e.clientX, e.clientY);
+
+  const handleSvgTouch = (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    e.preventDefault();
+    addPointFromCoords(touch.clientX, touch.clientY);
+  };
+
   // Line endpoints for SVG
   const x1 = 0;
   const y1 = slope * x1 + intercept;
@@ -98,23 +128,21 @@ export default function InteractiveLinearRegression() {
   const y2 = slope * x2 + intercept;
 
   return (
-    <div style={{
-      background: 'rgba(8,12,28,0.6)',
-      border: '1px solid rgba(255,255,255,0.08)',
-      borderRadius: '16px',
-      padding: '1.5rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1.5rem',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-      fontFamily: 'Outfit, sans-serif',
-      width: '100%',
-      boxSizing: 'border-box'
-    }}>
+    <div className="interactive-regression">
       
       {/* Top section: SVG Plot */}
-      <div style={{ position: 'relative', width: '100%', height: `${height}px`, background: '#05010b', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)' }}>
-        <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
+      <div className="interactive-regression-plot-wrap">
+        <p className="interactive-regression-hint">Tap or click the plot to add a data point</p>
+        <svg 
+          ref={svgRef}
+          width="100%" 
+          height="100%" 
+          viewBox={`0 0 ${width} ${height}`} 
+          preserveAspectRatio="xMidYMid meet"
+          onClick={handleSvgClick}
+          onTouchEnd={handleSvgTouch}
+          className="interactive-regression-svg"
+        >
           
           {/* Grid lines */}
           <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#334155" strokeWidth="1" />
@@ -165,10 +193,10 @@ export default function InteractiveLinearRegression() {
       </div>
 
       {/* Controls & Metrics Split */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
+      <div className="interactive-regression-grid">
         
         {/* Sliders */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div className="interactive-regression-controls">
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <label style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 600 }}>Slope (m)</label>
@@ -203,11 +231,11 @@ export default function InteractiveLinearRegression() {
         </div>
 
         {/* Live Metrics */}
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '1rem' }}>
-          <h4 style={{ fontSize: '0.8rem', color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '6px', margin: '0 0 1rem 0' }}>
+        <div className="interactive-regression-metrics-panel">
+          <h4 className="interactive-regression-metrics-title">
             <Calculator size={14} /> Live Error Metrics
           </h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <div className="interactive-regression-metrics-grid">
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 700, marginBottom: '2px' }}>MSE</div>
               <div style={{ fontSize: '1.1rem', color: '#f43f5e', fontWeight: 700 }}>{metrics.mse.toFixed(1)}</div>
@@ -230,47 +258,16 @@ export default function InteractiveLinearRegression() {
       </div>
 
       {/* Action Buttons */}
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+      <div className="interactive-regression-actions">
         <button 
           onClick={calculateOptimal}
-          style={{
-            flex: 1,
-            background: 'linear-gradient(135deg, #10b981, #059669)',
-            border: 'none',
-            padding: '0.75rem',
-            borderRadius: '8px',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: '0.9rem',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-            transition: 'all 0.2s'
-          }}
+          className="interactive-regression-btn interactive-regression-btn-primary"
         >
           <Target size={16} /> Optimal Fit
         </button>
         <button 
           onClick={generateData}
-          style={{
-            flex: 1,
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            padding: '0.75rem',
-            borderRadius: '8px',
-            color: '#e2e8f0',
-            fontWeight: 600,
-            fontSize: '0.9rem',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            transition: 'all 0.2s'
-          }}
+          className="interactive-regression-btn interactive-regression-btn-secondary"
         >
           <RefreshCw size={16} /> New Data
         </button>

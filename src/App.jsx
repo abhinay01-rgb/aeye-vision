@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Layers, Zap, Search, Activity, TrendingDown, GitMerge, ToggleLeft, 
-  GitBranch, Heart, ChevronLeft, ChevronRight, LayoutDashboard, Scissors, BookOpen, ChevronDown, Palette
+  GitBranch, Heart, ChevronLeft, ChevronRight, LayoutDashboard, Scissors, BookOpen, ChevronDown, Palette, Brain, Network
 } from 'lucide-react';
 import Scaling from './components/Scaling';
 import MissingValues from './components/MissingValues';
@@ -15,7 +15,13 @@ import DimensionalityReduction from './components/DimensionalityReduction';
 import Support from './components/Support';
 import QuestionBank from './components/QuestionBank';
 import EDA from './components/EDA';
+import DeepLearning from './components/DeepLearning';
+import NeuralNetworksGuide from './components/NeuralNetworksGuide';
+import PerceptronGuide from './components/PerceptronGuide';
+import FFNGuide from './components/FFNGuide';
+import CNNGuide from './components/CNNGuide';
 import MLAlgorithms from './components/MLAlgorithms';
+import { ML_ALGORITHMS, ML_ALGORITHM_IDS } from './data/mlAlgorithms';
 import Dashboard from './pages/Dashboard';
 import './App.css'; 
 
@@ -65,13 +71,17 @@ export default function App() {
     { id: 'ml_pipeline',              label: 'ML Pipeline',       icon: Activity },
   ];
 
-  const mlDropdownItems = [
-    { id: 'linear_regression',   label: 'Linear Regression' },
-    { id: 'logistic_regression', label: 'Logistic Regression' },
-    { id: 'decision_trees',      label: 'Decision Trees' },
-    { id: 'random_forests',      label: 'Random Forests' },
-    { id: 'svm',                 label: 'Support Vector Machines' },
-    { id: 'kmeans',              label: 'K-Means Clustering' }
+  const mlDropdownItems = ML_ALGORITHMS.map((item) => ({
+    id: item.id,
+    label: item.name,
+  }));
+
+  const dlDropdownItems = [
+    { id: 'deep_learning', label: 'Introduction to DL', icon: Brain },
+    { id: 'perceptron', label: 'How Perceptron Works', icon: Activity },
+    { id: 'nn_guide', label: 'Neural Networks Guide', icon: Network },
+    { id: 'ffn_guide', label: 'Feed Forward Networks (FFN)', icon: GitMerge },
+    { id: 'cnn_guide', label: 'Convolutional NN (CNN)', icon: Layers },
   ];
 
   // Pipeline flow steps
@@ -87,7 +97,7 @@ export default function App() {
     'ml_pipeline'
   ];
 
-  const mlAlgoSteps = mlDropdownItems.map(item => item.id);
+  const mlAlgoSteps = ML_ALGORITHM_IDS;
 
   const currentFlowIdx = flowSteps.indexOf(activeMainTab);
   const isFlowActive = currentFlowIdx !== -1;
@@ -115,6 +125,7 @@ export default function App() {
 
   // Helper to check active states
   const isFEDropdownActive = flowSteps.includes(activeMainTab);
+  const isDLDropdownActive = activeMainTab === 'deep_learning' || activeMainTab === 'nn_guide' || activeMainTab === 'perceptron' || activeMainTab === 'ffn_guide' || activeMainTab === 'cnn_guide';
 
   return (
     <div className={`app-container ${theme}-theme`}>
@@ -125,6 +136,17 @@ export default function App() {
           align-items: center;
           gap: 0.25rem;
           flex-wrap: wrap;
+        }
+        @media (max-width: 1024px) {
+          .nav-links-container {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: flex-start;
+            max-width: 100%;
+            padding-bottom: 0.35rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+          }
         }
         .nav-dropdown {
           position: relative;
@@ -277,6 +299,45 @@ export default function App() {
               EDA 📊
             </button>
 
+            {/* Deep Learning Dropdown */}
+            <div className="nav-dropdown">
+              <button 
+                className={`nav-dropdown-trigger ${isDLDropdownActive ? 'active' : ''}`}
+                onClick={() => setActiveDropdown(activeDropdown === 'dl' ? null : 'dl')}
+              >
+                <span>Deep Learning</span>
+                <ChevronDown 
+                  size={12} 
+                  style={{ 
+                    transform: activeDropdown === 'dl' ? 'rotate(180deg)' : 'rotate(0deg)', 
+                    transition: 'transform 0.2s ease' 
+                  }} 
+                />
+              </button>
+              
+              {activeDropdown === 'dl' && (
+                <div className="nav-dropdown-menu">
+                  {dlDropdownItems.map(item => {
+                    const Icon = item.icon;
+                    const isSelected = activeMainTab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        className={`nav-dropdown-item ${isSelected ? 'active' : ''}`}
+                        onClick={() => {
+                          setActiveMainTab(item.id);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <Icon size={12} style={{ color: '#818cf8' }} />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             {/* Feature Engineering Dropdown */}
             <div className="nav-dropdown">
               <button 
@@ -358,6 +419,45 @@ export default function App() {
               )}
             </div>
 
+            {/* Deep Learning Dropdown */}
+            <div className="nav-dropdown">
+              <button 
+                className={`nav-dropdown-trigger ${isDLDropdownActive ? 'active' : ''}`}
+                onClick={() => setActiveDropdown(activeDropdown === 'dl' ? null : 'dl')}
+              >
+                <span>Deep Learning</span>
+                <ChevronDown 
+                  size={12} 
+                  style={{ 
+                    transform: activeDropdown === 'dl' ? 'rotate(180deg)' : 'rotate(0deg)', 
+                    transition: 'transform 0.2s ease' 
+                  }} 
+                />
+              </button>
+              
+              {activeDropdown === 'dl' && (
+                <div className="nav-dropdown-menu">
+                  {dlDropdownItems.map(item => {
+                    const Icon = item.icon;
+                    const isSelected = activeMainTab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        className={`nav-dropdown-item ${isSelected ? 'active' : ''}`}
+                        onClick={() => {
+                          setActiveMainTab(item.id);
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <Icon size={12} style={{ color: '#ec4899' }} />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             {/* Question Bank Link */}
             <button
               className={`nav-link ${activeMainTab === 'question_bank' ? 'active' : ''}`}
@@ -384,6 +484,11 @@ export default function App() {
         {/* Active tab view */}
         {activeMainTab === 'dashboard'     && <Dashboard onNavigate={id => setActiveMainTab(id)} />}
         {activeMainTab === 'eda'           && <EDA />}
+        {activeMainTab === 'deep_learning' && <DeepLearning />}
+        {activeMainTab === 'perceptron'    && <PerceptronGuide />}
+        {activeMainTab === 'nn_guide'      && <NeuralNetworksGuide />}
+        {activeMainTab === 'ffn_guide'     && <FFNGuide />}
+        {activeMainTab === 'cnn_guide'     && <CNNGuide />}
         {activeMainTab === 'pipeline'      && <Pipeline />}
         {activeMainTab === 'missing'       && <MissingValues />}
         {activeMainTab === 'encoding'      && <Encoding />}
