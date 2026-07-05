@@ -126,7 +126,7 @@ export default function Dashboard({ onNavigate }) {
           </h1>
           
           <p className="dash-hero-sub">
-            Learn machine learning algorithms, exploratory data analysis, and feature engineering through interactive calculators, visual sandboxes, and compiled templates.
+            Master Machine Learning, Deep Learning (CNNs, ViTs), Exploratory Data Analysis, and Feature Engineering through interactive visual sandboxes, interactive calculators, and hands-on code.
           </p>
 
           <button

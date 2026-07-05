@@ -299,45 +299,6 @@ export default function App() {
               EDA 📊
             </button>
 
-            {/* Deep Learning Dropdown */}
-            <div className="nav-dropdown">
-              <button 
-                className={`nav-dropdown-trigger ${isDLDropdownActive ? 'active' : ''}`}
-                onClick={() => setActiveDropdown(activeDropdown === 'dl' ? null : 'dl')}
-              >
-                <span>Deep Learning</span>
-                <ChevronDown 
-                  size={12} 
-                  style={{ 
-                    transform: activeDropdown === 'dl' ? 'rotate(180deg)' : 'rotate(0deg)', 
-                    transition: 'transform 0.2s ease' 
-                  }} 
-                />
-              </button>
-              
-              {activeDropdown === 'dl' && (
-                <div className="nav-dropdown-menu">
-                  {dlDropdownItems.map(item => {
-                    const Icon = item.icon;
-                    const isSelected = activeMainTab === item.id;
-                    return (
-                      <button
-                        key={item.id}
-                        className={`nav-dropdown-item ${isSelected ? 'active' : ''}`}
-                        onClick={() => {
-                          setActiveMainTab(item.id);
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        <Icon size={12} style={{ color: '#818cf8' }} />
-                        <span>{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
             {/* Feature Engineering Dropdown */}
             <div className="nav-dropdown">
               <button 
