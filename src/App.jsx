@@ -419,13 +419,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Question Bank Link */}
-            <button
-              className={`nav-link ${activeMainTab === 'question_bank' ? 'active' : ''}`}
-              onClick={() => { setActiveMainTab('question_bank'); setActiveDropdown(null); }}
-            >
-              Question Bank 📚
-            </button>
+
 
           </nav>
 
