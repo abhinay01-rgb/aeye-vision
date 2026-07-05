@@ -465,6 +465,18 @@ export default function App() {
             >
               Question Bank 📚
             </button>
+
+            {/* AEye Link */}
+            <a
+              href="#"
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault();
+                alert('AEye link clicked! Please provide the URL.');
+              }}
+            >
+              AEye 👁️
+            </a>
           </nav>
 
           {/* Theme Toggle Switcher Button */}
