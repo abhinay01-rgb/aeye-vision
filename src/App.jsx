@@ -468,7 +468,7 @@ export default function App() {
 
             {/* AEye Link */}
             <a
-              href="https://aieye.github.io"
+              href="https://aeye.github.io"
               target="_blank"
               rel="noopener noreferrer"
               className="nav-link"
