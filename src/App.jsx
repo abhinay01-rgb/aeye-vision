@@ -468,7 +468,7 @@ export default function App() {
 
             {/* AEye Link */}
             <a
-              href="https://a.eye.vercel.app/"
+              href="https://aeye-vision.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               className="nav-link"
