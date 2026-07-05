@@ -433,6 +433,7 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               className="nav-link"
+              style={{ textDecoration: 'none' }}
             >
               AEye 👁️
             </a>
