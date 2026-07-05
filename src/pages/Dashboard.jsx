@@ -5,12 +5,6 @@ import {
 } from 'lucide-react';
 
 import Roadmap from '../components/Roadmap';
-const stats = [
-  { value: '9', label: 'Interactive Steps', icon: BookOpen },
-  { value: '100%', label: 'Hands-on Code', icon: CheckCircle2 },
-  { value: '185', label: 'Placement Qs', icon: Layers },
-  { value: 'Colab', label: 'Notebooks Included', icon: Cpu },
-];
 
 export default function Dashboard({ onNavigate }) {
   return (
@@ -94,19 +88,6 @@ export default function Dashboard({ onNavigate }) {
               <span>📚 Explore Roadmap</span>
             </button>
           </div>
-        </div>
-
-        {/* Stats strip */}
-        <div className="dash-hero-stats-container">
-          {stats.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', fontFamily: 'Outfit, sans-serif' }}>{s.value}</span>
-                <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.02em' }}>{s.label}</span>
-              </div>
-            );
-          })}
         </div>
       </div>
 
