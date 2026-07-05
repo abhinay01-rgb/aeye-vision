@@ -4,99 +4,7 @@ import {
   Activity, Heart, ChevronRight, Zap, BookOpen, CheckCircle2, ArrowRight
 } from 'lucide-react';
 
-const flowSteps = [
-  {
-    id: 'pipeline',
-    stepNumber: 'Step 1',
-    icon: GitBranch,
-    title: 'FE Hierarchy Map',
-    subtitle: 'Core Taxonomy',
-    desc: 'Explore the theoretical taxonomy of feature transformation, construction, selection, and extraction in data science.',
-    color: '#6366f1',
-    glow: 'rgba(99,102,241,0.15)',
-  },
-  {
-    id: 'mixed',
-    stepNumber: 'Step 2',
-    icon: GitMerge,
-    title: 'Mixed Variables',
-    subtitle: 'Feature Extraction',
-    desc: 'Extract numbers or categories from columns containing mixed data formats (e.g., ticket codes, address details).',
-    color: '#38bdf8',
-    glow: 'rgba(56,189,248,0.15)',
-  },
-  {
-    id: 'missing',
-    stepNumber: 'Step 3',
-    icon: Search => <span>🔍</span>, // search icon fallback
-    title: 'Missing Values',
-    subtitle: 'Imputation Strategies',
-    desc: 'Safely handle nulls and NaNs using mean, median, mode, or categorical flag replacement without introducing bias.',
-    color: '#06b6d4',
-    glow: 'rgba(6,182,212,0.15)',
-  },
-  {
-    id: 'encoding',
-    stepNumber: 'Step 4',
-    icon: Layers,
-    title: 'Categorical Encoding',
-    subtitle: 'Text to Numerical',
-    desc: 'Convert labels and categories into math-ready formats using One-Hot Encoding and Ordinal Encoding.',
-    color: '#8b5cf6',
-    glow: 'rgba(139,92,246,0.15)',
-  },
-  {
-    id: 'outlier',
-    stepNumber: 'Step 5',
-    icon: TrendingDown => <span>📉</span>,
-    title: 'Outlier Treatment',
-    subtitle: 'Clipping & Winsorization',
-    desc: 'Detect and trim extreme distribution tails using Z-Score, IQR, or percentile capping methods.',
-    color: '#ec4899',
-    glow: 'rgba(236,72,153,0.15)',
-  },
-  {
-    id: 'scaling',
-    stepNumber: 'Step 6',
-    icon: Zap,
-    title: 'Feature Scaling',
-    subtitle: 'Normalization & Standard',
-    desc: 'Equalize feature magnitudes to optimize gradient descent using StandardScaler and MinMaxScaler.',
-    color: '#fbbf24',
-    glow: 'rgba(251,191,36,0.15)',
-  },
-  {
-    id: 'binarization',
-    stepNumber: 'Step 7',
-    icon: ToggleLeft,
-    title: 'Binarization',
-    subtitle: 'Thresholding Rules',
-    desc: 'Convert continuous features into boolean flags based on specific threshold value criteria.',
-    color: '#10b981',
-    glow: 'rgba(16,185,129,0.15)',
-  },
-  {
-    id: 'dimensionality_reduction',
-    stepNumber: 'Step 8',
-    icon: Scissors,
-    title: 'Curse of Dim / DR',
-    subtitle: 'Feature Extraction',
-    desc: 'Compress high-dimensional spaces to combat sparseness and increase separability using PCA & LDA.',
-    color: '#a855f7',
-    glow: 'rgba(168,85,247,0.15)',
-  },
-  {
-    id: 'ml_pipeline',
-    stepNumber: 'Step 9',
-    icon: Activity,
-    title: 'ML Pipeline',
-    subtitle: 'End-to-End Predictor',
-    desc: 'Chain all transformations and a model into one single exportable, leak-proof sklearn Pipeline.',
-    color: '#4ade80',
-    glow: 'rgba(74,222,128,0.18)',
-  }
-];
-
+import Roadmap from '../components/Roadmap';
 const stats = [
   { value: '9', label: 'Interactive Steps', icon: BookOpen },
   { value: '100%', label: 'Hands-on Code', icon: CheckCircle2 },
@@ -112,46 +20,80 @@ export default function Dashboard({ onNavigate }) {
       <div className="dash-hero">
         <div className="dash-hero-inner" style={{ position: 'relative', zIndex: 2, maxWidth: '720px' }}>
           <div className="dash-hero-badge">
-            <Zap size={12} /> Interactive ML Visual Studio
+            <Zap size={12} /> 🚀 Learn AI Through Interactive Visualizations
           </div>
           
           <h1 className="dash-hero-title">
-            Mastering Machine<br />
+            Master AI with Interactive<br />
             <span style={{
               background: 'linear-gradient(135deg, #6366f1, #a5b4fc, #ec4899)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 850
-            }}>Learning with Viz</span>
+            }}>Visual Learning</span>
           </h1>
           
+          <div style={{
+            fontSize: '1rem',
+            fontWeight: 700,
+            color: '#8b5cf6',
+            marginBottom: '1rem',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase'
+          }}>
+            Machine Learning • Deep Learning • Generative AI • Agentic AI
+          </div>
+
           <p className="dash-hero-sub">
-            Master Machine Learning, Deep Learning (CNNs, ViTs), Exploratory Data Analysis, and Feature Engineering through interactive visual sandboxes, interactive calculators, and hands-on code.
+            Learn complex AI concepts through intuitive visualizations, interactive playgrounds, real-world projects, animations, and hands-on coding. From fundamentals to advanced AI systems—all in one place.
           </p>
 
-          <button
-            onClick={() => onNavigate('pipeline')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
-              color: '#fff',
-              border: 'none',
-              padding: '0.85rem 1.75rem',
-              borderRadius: '12px',
-              fontSize: '0.9rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 8px 20px rgba(99,102,241,0.35)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(99,102,241,0.45)'; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(99,102,241,0.35)'; }}
-          >
-            <span>Start Learning Flow</span>
-            <ArrowRight size={16} />
-          </button>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => onNavigate('pipeline')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                color: '#fff',
+                border: 'none',
+                padding: '0.85rem 1.75rem',
+                borderRadius: '12px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 8px 20px rgba(99,102,241,0.35)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 25px rgba(99,102,241,0.45)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(99,102,241,0.35)'; }}
+            >
+              <span>🚀 Start Learning</span>
+            </button>
+            
+            <button
+              onClick={() => document.getElementById('roadmap-section')?.scrollIntoView({ behavior: 'smooth' })}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                background: 'rgba(255,255,255,0.05)',
+                color: '#fff',
+                border: '1px solid rgba(255,255,255,0.1)',
+                padding: '0.85rem 1.75rem',
+                borderRadius: '12px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+            >
+              <span>📚 Explore Roadmap</span>
+            </button>
+          </div>
         </div>
 
         {/* Stats strip */}
@@ -168,87 +110,9 @@ export default function Dashboard({ onNavigate }) {
         </div>
       </div>
 
-      {/* Pipeline Flow Stepper Section */}
-      <div>
-        <div style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', fontFamily: 'Outfit, sans-serif', marginBottom: '0.35rem' }}>Logical Pipeline Flow</h2>
-          <p style={{ fontSize: '0.82rem', color: '#64748b' }}>Data preprocessing steps should be executed in this sequence to maintain model integrity.</p>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
-          {flowSteps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={step.id}
-                onClick={() => onNavigate(step.id)}
-                style={{
-                  background: 'rgba(255,255,255,0.01)',
-                  border: '1px solid rgba(255,255,255,0.05)',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.border = `1px solid ${step.color}35`;
-                  e.currentTarget.style.background = `${step.color}05`;
-                  e.currentTarget.style.boxShadow = `0 8px 30px ${step.glow}`;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.05)';
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.01)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                {/* Step badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  right: '1rem',
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: step.color,
-                  background: `${step.color}15`,
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  textTransform: 'uppercase',
-                }}>
-                  {step.stepNumber}
-                </div>
-
-                {/* Icon Wrap */}
-                <div style={{
-                  display: 'inline-flex',
-                  padding: '0.6rem',
-                  borderRadius: '10px',
-                  background: `${step.color}15`,
-                  color: step.color,
-                  marginBottom: '1rem',
-                }}>
-                  {step.id === 'missing' || step.id === 'outlier' ? Icon() : <Icon size={20} />}
-                </div>
-
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.25rem' }}>{step.title}</h3>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.02em', marginBottom: '0.75rem' }}>{step.subtitle}</h4>
-                
-                <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                  {step.desc}
-                </p>
-
-                {/* Footer indicator */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: '1.25rem', color: step.color, fontSize: '0.78rem', fontWeight: 700 }}>
-                  <span>Explore step</span>
-                  <ChevronRight size={12} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      {/* Roadmap Section */}
+      <div id="roadmap-section" style={{ marginTop: '3rem' }}>
+        <Roadmap />
       </div>
 
       {/* Interview Question Bank Callout */}
