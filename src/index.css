@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: #050811;
+  background-color: #000000;
   background-image:
     radial-gradient(at 0% 0%, rgba(99,102,241,0.1) 0px, transparent 55%),
     radial-gradient(at 100% 100%, rgba(139,92,246,0.08) 0px, transparent 55%),
@@ -50,7 +50,7 @@ body {
 .header {
   border-bottom: 1px solid rgba(255,255,255,0.06);
   backdrop-filter: blur(14px);
-  background: rgba(8,12,28,0.8);
+  background: rgba(0,0,0,0.8);
   padding: 0.75rem 2rem;
   position: sticky;
   top: 0;
