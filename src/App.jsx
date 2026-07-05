@@ -468,12 +468,10 @@ export default function App() {
 
             {/* AEye Link */}
             <a
-              href="#"
+              href="https://aeye.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
               className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                alert('AEye link clicked! Please provide the URL.');
-              }}
             >
               AEye 👁️
             </a>
