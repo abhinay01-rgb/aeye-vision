@@ -435,7 +435,7 @@ export default function App() {
               className="nav-link"
               style={{ textDecoration: 'none' }}
             >
-              AEye 👁️
+              AEye
             </a>
           </nav>
 
