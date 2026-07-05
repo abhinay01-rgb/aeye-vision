@@ -427,16 +427,6 @@ export default function App() {
               Question Bank 📚
             </button>
 
-            {/* AEye Link */}
-            <a
-              href="https://aeye-vision.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-link"
-              style={{ textDecoration: 'none' }}
-            >
-              AEye
-            </a>
           </nav>
 
           {/* Theme Toggle Switcher Button */}
