@@ -276,8 +276,8 @@ export default function App() {
         <div className="logo-section" style={{ cursor: 'pointer' }} onClick={() => { setActiveMainTab('dashboard'); setActiveDropdown(null); }}>
           <div className="logo-icon"><Layers size={22} /></div>
           <div>
-            <h1 className="logo-text">Mastering ML with Viz</h1>
-            <div className="logo-tagline">Mastering Machine Learning with Visualization</div>
+            <h1 className="logo-text">Mastering AI with Viz</h1>
+            <div className="logo-tagline">Mastering Artificial Intelligence with Visualization</div>
           </div>
         </div>
         
