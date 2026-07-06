@@ -2679,6 +2679,21 @@ body.neon-dusk-theme {
     flex-shrink: 0;
   }
   
+  /* Fix Dropdown menus getting clipped by scrollable nav container */
+  .nav-dropdown-menu {
+    position: fixed !important;
+    top: 110px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90vw !important;
+    max-width: 320px !important;
+    max-height: calc(100vh - 130px) !important;
+    overflow-y: auto !important;
+    z-index: 9999 !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+  }
+  
   /* Main Content Spacing */
   .main-content.single-pane {
     padding: 1rem 0.5rem;
