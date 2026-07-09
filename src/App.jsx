@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Layers, Zap, Search, Activity, TrendingDown, GitMerge, ToggleLeft, 
-  GitBranch, Heart, ChevronLeft, ChevronRight, LayoutDashboard, Scissors, BookOpen, ChevronDown, Palette, Brain, Network
+  GitBranch, Heart, ChevronLeft, ChevronRight, LayoutDashboard, Scissors, BookOpen, ChevronDown, Palette, Brain, Network, Sliders
 } from 'lucide-react';
 import Scaling from './components/Scaling';
 import MissingValues from './components/MissingValues';
@@ -20,6 +20,7 @@ import NeuralNetworksGuide from './components/NeuralNetworksGuide';
 import PerceptronGuide from './components/PerceptronGuide';
 import FFNGuide from './components/FFNGuide';
 import CNNGuide from './components/CNNGuide';
+import ParametersGuide from './components/ParametersGuide';
 import MLAlgorithms from './components/MLAlgorithms';
 import { ML_ALGORITHMS, ML_ALGORITHM_IDS } from './data/mlAlgorithms';
 import Dashboard from './pages/Dashboard';
@@ -81,6 +82,7 @@ export default function App() {
     { id: 'perceptron', label: 'How Perceptron Works', icon: Activity },
     { id: 'nn_guide', label: 'Neural Networks Guide', icon: Network },
     { id: 'ffn_guide', label: 'Feed Forward Networks (FFN)', icon: GitMerge },
+    { id: 'parameters_guide', label: 'DL Hyperparameters & Tuning', icon: Sliders },
     { id: 'cnn_guide', label: 'Convolutional NN (CNN)', icon: Layers },
   ];
 
@@ -125,7 +127,7 @@ export default function App() {
 
   // Helper to check active states
   const isFEDropdownActive = flowSteps.includes(activeMainTab);
-  const isDLDropdownActive = activeMainTab === 'deep_learning' || activeMainTab === 'nn_guide' || activeMainTab === 'perceptron' || activeMainTab === 'ffn_guide' || activeMainTab === 'cnn_guide';
+  const isDLDropdownActive = activeMainTab === 'deep_learning' || activeMainTab === 'nn_guide' || activeMainTab === 'perceptron' || activeMainTab === 'ffn_guide' || activeMainTab === 'parameters_guide' || activeMainTab === 'cnn_guide';
 
   return (
     <div className={`app-container ${theme}-theme`}>
@@ -444,6 +446,7 @@ export default function App() {
         {activeMainTab === 'perceptron'    && <PerceptronGuide />}
         {activeMainTab === 'nn_guide'      && <NeuralNetworksGuide />}
         {activeMainTab === 'ffn_guide'     && <FFNGuide />}
+        {activeMainTab === 'parameters_guide' && <ParametersGuide />}
         {activeMainTab === 'cnn_guide'     && <CNNGuide />}
         {activeMainTab === 'pipeline'      && <Pipeline />}
         {activeMainTab === 'missing'       && <MissingValues />}

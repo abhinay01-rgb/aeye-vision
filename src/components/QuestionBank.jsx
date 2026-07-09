@@ -295,6 +295,30 @@ export default function QuestionBank() {
   const [selectedCompany, setSelectedCompany] = useState('All');
   const [selectedTopic, setSelectedTopic] = useState('All');
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [college, setCollege] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const handleDownloadSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !college || !email) {
+      setError('Please provide Name, College, and Email');
+      return;
+    }
+    setError('');
+    
+    // Open Google Drive link in a new tab
+    window.open('https://drive.google.com/file/d/1vH8jcBtaUB4wvJYOpwR51NoQOat4uKeP/view?usp=sharing', '_blank');
+    
+    // Reset and close
+    setIsModalOpen(false);
+    setName('');
+    setCollege('');
+    setEmail('');
+  };
+
   // Dynamically extract all unique topics/tags from questions
   const allUniqueTopics = useMemo(() => {
     const topics = new Set();
@@ -394,6 +418,22 @@ export default function QuestionBank() {
         <p className="tutorial-paragraph" style={{ maxWidth: '600px', margin: '0.5rem auto 0', fontSize: '0.92rem', color: '#94a3b8' }}>
           Accelerate your preparation with real interview questions sourced from top companies and key ML/AI topics.
         </p>
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          style={{
+            marginTop: '1rem',
+            padding: '0.6rem 1.5rem',
+            background: 'linear-gradient(135deg, #2DD4BF, #0D9488)',
+            border: 'none',
+            borderRadius: '8px',
+            color: '#fff',
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontSize: '0.9rem',
+            boxShadow: '0 4px 15px rgba(45, 212, 191, 0.3)'
+          }}>
+          Download ML Question Bank
+        </button>
       </div>
 
       {/* Stats row */}
@@ -898,6 +938,62 @@ export default function QuestionBank() {
               </div>
             );
           })}
+        </div>
+      )}
+      {/* Download Modal */}
+      {isModalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          backdropFilter: 'blur(5px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: '#0B1120',
+            border: '1px solid rgba(255,255,255,0.1)',
+            padding: '2rem',
+            borderRadius: '16px',
+            width: '90%',
+            maxWidth: '400px',
+            position: 'relative'
+          }}>
+            <button 
+              onClick={() => { setIsModalOpen(false); setError(''); }}
+              style={{ position: 'absolute', top: '15px', right: '15px', background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer' }}
+            >
+              <X size={20} />
+            </button>
+            <h3 style={{ marginTop: 0, color: '#fff' }}>Download ML Question Bank</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+              Please enter your details to access the Google Drive link.
+            </p>
+            
+            {error && <div style={{ color: '#f87171', fontSize: '0.8rem', marginBottom: '1rem', background: 'rgba(248,113,113,0.1)', padding: '8px', borderRadius: '4px' }}>{error}</div>}
+
+            <form onSubmit={handleDownloadSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <input 
+                type="text" placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} required
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff' }} 
+              />
+              <input 
+                type="text" placeholder="Your College" value={college} onChange={e => setCollege(e.target.value)} required
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff' }} 
+              />
+              <input 
+                type="email" placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} required
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff' }} 
+              />
+              <button type="submit" style={{
+                padding: '10px', background: '#2DD4BF', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold'
+              }}>
+                Download PDF
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>
