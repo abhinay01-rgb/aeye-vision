@@ -20,6 +20,7 @@ import NeuralNetworksGuide from './components/NeuralNetworksGuide';
 import PerceptronGuide from './components/PerceptronGuide';
 import FFNGuide from './components/FFNGuide';
 import CNNGuide from './components/CNNGuide';
+import RNNGuide from './components/RNNGuide';
 import ParametersGuide from './components/ParametersGuide';
 import MLAlgorithms from './components/MLAlgorithms';
 import { ML_ALGORITHMS, ML_ALGORITHM_IDS } from './data/mlAlgorithms';
@@ -84,6 +85,7 @@ export default function App() {
     { id: 'ffn_guide', label: 'Feed Forward Networks (FFN)', icon: GitMerge },
     { id: 'parameters_guide', label: 'DL Hyperparameters & Tuning', icon: Sliders },
     { id: 'cnn_guide', label: 'Convolutional NN (CNN)', icon: Layers },
+    { id: 'rnn_guide', label: 'Recurrent NN (RNN)', icon: Activity },
   ];
 
   // Pipeline flow steps
@@ -127,7 +129,7 @@ export default function App() {
 
   // Helper to check active states
   const isFEDropdownActive = flowSteps.includes(activeMainTab);
-  const isDLDropdownActive = activeMainTab === 'deep_learning' || activeMainTab === 'nn_guide' || activeMainTab === 'perceptron' || activeMainTab === 'ffn_guide' || activeMainTab === 'parameters_guide' || activeMainTab === 'cnn_guide';
+  const isDLDropdownActive = activeMainTab === 'deep_learning' || activeMainTab === 'nn_guide' || activeMainTab === 'perceptron' || activeMainTab === 'ffn_guide' || activeMainTab === 'parameters_guide' || activeMainTab === 'cnn_guide' || activeMainTab === 'rnn_guide';
 
   return (
     <div className={`app-container ${theme}-theme`}>
@@ -448,6 +450,7 @@ export default function App() {
         {activeMainTab === 'ffn_guide'     && <FFNGuide />}
         {activeMainTab === 'parameters_guide' && <ParametersGuide />}
         {activeMainTab === 'cnn_guide'     && <CNNGuide />}
+        {activeMainTab === 'rnn_guide'     && <RNNGuide />}
         {activeMainTab === 'pipeline'      && <Pipeline />}
         {activeMainTab === 'missing'       && <MissingValues />}
         {activeMainTab === 'encoding'      && <Encoding />}
